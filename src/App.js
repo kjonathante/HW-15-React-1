@@ -24,6 +24,23 @@ class App extends Component {
     ]
   }
 
+  clickHandler = () => {
+    console.log('click me')
+    const arr = [...this.state.images]
+    // for(let i=0; i<13; i++) {
+    //   arr[i] = i
+    // }
+
+    for(let i=0; i<12; i++) {
+      const rnum = getRandomIntInclusive(0,11)
+      const temp = arr[i]
+      arr[i] = arr[rnum]
+      arr[rnum] = temp
+    }
+  
+    this.setState( {images: arr})
+  }
+
   render() {
     return (
       <div className="App">
@@ -36,12 +53,18 @@ class App extends Component {
         </p>
         <div className="App-container">
           {this.state.images.map( (img,index) => {
-            return <ImageHolder key={index} src={img}/>
+            return <ImageHolder key={index} src={img} clicked={this.clickHandler}/>
           })}
         </div>
       </div>
     );
   }
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
 export default App;

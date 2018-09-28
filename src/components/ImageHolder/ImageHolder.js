@@ -7,7 +7,7 @@ const ImageHolder = props => {
   }
 
   return (
-    <div className="ImageHolder" style={style}/>
+    <div onClick={props.clicked} className="ImageHolder" style={style}/>
   )
 }
 
