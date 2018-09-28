@@ -19,17 +19,34 @@ import ImageHolder from './components/ImageHolder/ImageHolder'
 class App extends Component {
   state = {
     images : [
-      image0,image1,image2,image3,image4,image5,
-      image6,image7,image8,image9,image10,image11
-    ]
+      {id: 'a', img: image0},
+      {id: 'b', img: image1},
+      {id: 'c', img: image2},
+      {id: 'd', img: image3},
+      {id: 'e', img: image4},
+      {id: 'f', img: image5},
+      {id: 'g', img: image6},
+      {id: 'h', img: image7},
+      {id: 'i', img: image8},
+      {id: 'j', img: image9},
+      {id: 'k', img: image10},
+      {id: 'l', img: image11}
+    ],
+    clicked: []
   }
 
-  clickHandler = () => {
-    console.log('click me')
+  clickHandler = (id) => {
+
+    let clicked = [...this.state.clicked]
     const arr = [...this.state.images]
-    // for(let i=0; i<13; i++) {
-    //   arr[i] = i
-    // }
+    
+    if( clicked.indexOf(id) === -1 ) {
+      clicked.push(id)
+    } else {
+      clicked = []
+    }
+
+    
 
     for(let i=0; i<12; i++) {
       const rnum = getRandomIntInclusive(0,11)
@@ -38,7 +55,8 @@ class App extends Component {
       arr[rnum] = temp
     }
   
-    this.setState( {images: arr})
+    console.log(clicked)
+    this.setState( {images: arr, clicked: clicked})
   }
 
   render() {
@@ -52,8 +70,12 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <div className="App-container">
-          {this.state.images.map( (img,index) => {
-            return <ImageHolder key={index} src={img} clicked={this.clickHandler}/>
+          {this.state.images.map( (item) => {
+            return <ImageHolder 
+              key={item.id} 
+              src={item.img} 
+              clicked={this.clickHandler.bind(this,item.id)}
+            />
           })}
         </div>
       </div>
