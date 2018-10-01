@@ -39,3 +39,9 @@
   width: 90%;
   margin: 0 auto;
 }
+
+@media (min-width: 900px) {
+  .App-container {
+    width: 900px;
+  }
+}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import image0 from './assets/images/71021_cedric_336x448.jpeg'
 import image1 from './assets/images/71021_dumbledore_336x448.jpeg'
@@ -15,6 +14,8 @@ import image10 from './assets/images/71021_tina_336x448.jpeg'
 import image11 from './assets/images/71021_trelawney_336x448.jpeg'
 
 import ImageHolder from './components/ImageHolder/ImageHolder'
+import Scoreboard from './components/Scoreboard/Scoreboard'
+
 
 class App extends Component {
   state = {
@@ -32,43 +33,52 @@ class App extends Component {
       {id: 'k', img: image10},
       {id: 'l', img: image11}
     ],
-    clicked: []
+    clicked: [],
+    topScore: 0,
+    score: 0
   }
 
   clickHandler = (id) => {
 
     let clicked = [...this.state.clicked]
-    const arr = [...this.state.images]
+    const images = [...this.state.images]
+    let score = this.state.score
+    let topScore = this.state.topScore
     
     if( clicked.indexOf(id) === -1 ) {
       clicked.push(id)
+      score += 1
+      topScore = (score > topScore) ? score : topScore
     } else {
       clicked = []
+      score = 0
     }
 
     
 
     for(let i=0; i<12; i++) {
       const rnum = getRandomIntInclusive(0,11)
-      const temp = arr[i]
-      arr[i] = arr[rnum]
-      arr[rnum] = temp
+      const temp = images[i]
+      images[i] = images[rnum]
+      images[rnum] = temp
     }
   
     console.log(clicked)
-    this.setState( {images: arr, clicked: clicked})
+    this.setState( {
+      images, 
+      clicked, 
+      topScore, 
+      score
+    })
   }
 
   render() {
     return (
       <div className="App">
+        <Scoreboard score={this.state.score} topScore={this.state.topScore}/>
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
         <div className="App-container">
           {this.state.images.map( (item) => {
             return <ImageHolder 
